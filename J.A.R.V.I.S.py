@@ -4,12 +4,14 @@ import json
 import os
 from posixpath import dirname
 dirname = os.path.dirname(__file__)
-in_file_name = os.path.join(dirname, 'Wav', 'Recording.wav')
+in_file_name = os.path.join(dirname, 'Wav', 'Recording_mono.wav')
 out_file_text = os.path.join(dirname, 'Text')
 out_file_results = os.path.join(dirname, 'Results')
 '''
 this script reads a mono wav file (inFileName) and writes out a json file (outfileResults) with the speech to text conversion results.  It then writes out another json file (outfileText) that only has the "text" values.
 '''
+
+## ffmpeg -i Recording.wav -ac 1 Recording_mono.wav
 
 wf = wave.open(in_file_name, "r")
 
