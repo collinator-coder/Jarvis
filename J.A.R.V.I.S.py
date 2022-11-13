@@ -4,22 +4,18 @@ import json
 import os
 from posixpath import dirname
 dirname = os.path.dirname(__file__)
-filein = os.path.join(dirname, 'Wav', 'Recording.wav')
-outtxt = os.path.join(dirname, 'Text')
-outrec = os.path.join(dirname, 'Results')
+in_file_name = os.path.join(dirname, 'Wav', 'Recording.wav')
+out_file_text = os.path.join(dirname, 'Text')
+out_file_results = os.path.join(dirname, 'Results')
 '''
 this script reads a mono wav file (inFileName) and writes out a json file (outfileResults) with the speech to text conversion results.  It then writes out another json file (outfileText) that only has the "text" values.
 '''
 
-inFileName = filein
-outfileText = outtxt
-outfileResults = outrec
-
-wf = wave.open(inFileName, "rb")
+wf = wave.open(in_file_name, "r")
 
 # initialize a str to hold results
 results = ""
-textResults = []
+text_results = []
 
 # build the model and recognizer objects.
 model = Model(dirname)
@@ -34,28 +30,24 @@ while True:
         recognizerResult = recognizer.Result()
         results = results + recognizerResult
         # convert the recognizerResult string into a dictionary  
-        resultDict = json.loads(recognizerResult)
+        result_dict = json.loads(recognizerResult)
         # save the 'text' value from the dictionary into a list
-        textResults.append(resultDict.get("text", ""))
+        text_results.append(result_dict.get("text", ""))
 
 ##    else:
 ##        print(recognizer.PartialResult())
         
 # process "final" result
 results = results + recognizer.FinalResult()
-resultDict = json.loads(recognizer.FinalResult())
-textResults.append(resultDict.get("text", ""))
+result_dict = json.loads(recognizer.FinalResult())
+text_results.append(result_dict.get("text", ""))
 
 # write results to a file
 filestr='JVStext'
 file="JVStext"
-with open(outfileResults, 'w') as output:
+with open(out_file_results, 'w') as output:
     print(results, file, output)
 
 # write text portion of results to a file
-with open(outfileText, filestr) as output:
-    print(json.dumps(textResults, indent=4))
-    
-
-
-
+with open(out_file_text, filestr) as output:
+    print(json.dumps(text_results, indent=4))
