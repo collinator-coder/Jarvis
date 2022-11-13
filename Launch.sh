@@ -1,2 +1,1 @@
-python Wav/JVSWav record.py
-
+python3 Wav/JVSWav record.py
