@@ -5,6 +5,7 @@ import argparse
 import queue
 import sys
 import sounddevice as sd
+import json
 
 from vosk import Model, KaldiRecognizer
 
@@ -68,9 +69,13 @@ try:
         while True:
             data = q.get()
             if rec.AcceptWaveform(data):
-                print(rec.Result())
-            else:
-                print(rec.PartialResult())
+                # print(rec.Result())
+                result_text = rec.Result()
+                print(result_text)
+                parsed_data = json.loads(result_text)
+                print(parsed_data.text)
+                if parsed_data.text.startswith('jarvis'):
+                    print(parsed_data.text.replace('jarvis ', ''))
             if dump_fn is not None:
                 dump_fn.write(data)
 
