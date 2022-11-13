@@ -2,13 +2,13 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 import queue
 import sys
-import sounddevice as sd
-import json
-import requests
 
-from vosk import Model, KaldiRecognizer
+import requests
+import sounddevice as sd
+from vosk import KaldiRecognizer, Model
 
 q = queue.Queue()
 
@@ -76,11 +76,17 @@ try:
                 parsed_data = json.loads(result_text)
                 # print(parsed_data['text'])
                 if parsed_data['text'].startswith('jarvis'):
-                    print(parsed_data['text'].replace('jarvis ', 'Executing '))
-                if(parsed_data['text'] != "jarvis stop recording"):
-                    print("/nDone")
+                    print(parsed_data['text'])
+                    try:
+                        headers = {'Content-Type': 'text/plain', 'Accept': '*/*'}
+                        r = requests.post('http://openhab.local:8080/rest/habot/chat', auth=('oh.CollinToken.ucpZzjkoWnhxg9P6lkmIdKJl11rQT0UN6Ky6rxuE99n87SwyEMptvCHurYZ9GlfmU636B2mSaxRHs6js4mg', ''), data=(parsed_data['text']), headers=headers)
+                        print(r.reason)
+                        print(r.status_code)
+                    except requests.RequestException as e:
+                        print(e.strerror)
+                if parsed_data['text'] == "jarvis stop recording":
+                    print("Done")
                     parser.exit(0)
-                    r = requests.post('http://openhab.local:8080/rest/habot/chat', auth=('admin', 'JASBuJxnuFq4JY3'), data=(parsed_data['text']))
             if dump_fn is not None:
                 dump_fn.write(data)
 
