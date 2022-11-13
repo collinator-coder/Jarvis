@@ -77,7 +77,7 @@ try:
                 # print(parsed_data['text'])
                 if parsed_data['text'].startswith('jarvis'):
                     print(parsed_data['text'].replace('jarvis ', ''))
-                    r = requests.post('http://openhab.local:8080/habot/', auth=('admin', 'JASBuJxnuFq4JY3'), data=(parsed_data['text']))
+                    r = requests.post('http://openhab.local:8080/rest/habot/', auth=('admin', 'JASBuJxnuFq4JY3'), data=(parsed_data['text']))
             if dump_fn is not None:
                 dump_fn.write(data)
 
