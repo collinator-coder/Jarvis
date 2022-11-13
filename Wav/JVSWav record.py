@@ -6,6 +6,7 @@ import queue
 import sys
 import sounddevice as sd
 import json
+import requests
 
 from vosk import Model, KaldiRecognizer
 
@@ -76,6 +77,7 @@ try:
                 # print(parsed_data['text'])
                 if parsed_data['text'].startswith('jarvis'):
                     print(parsed_data['text'].replace('jarvis ', ''))
+
             if dump_fn is not None:
                 dump_fn.write(data)
 
