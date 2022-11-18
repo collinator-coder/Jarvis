@@ -75,23 +75,31 @@ try:
                 # print(result_text)
                 parsed_data = json.loads(result_text)
                 # print(parsed_data['text'])
+
+                # Server Stuff
+                print(parsed_data['text'])
                 if parsed_data['text'].startswith('jarvis'):
-                    print(parsed_data['text'])
-                    try:
-                        headers = {'Content-Type': 'text/plain', 'Accept': '*/*'}
-                        r = requests.post('http://openhab.local:8080/rest/habot/chat', auth=('oh.CollinToken.ucpZzjkoWnhxg9P6lkmIdKJl11rQT0UN6Ky6rxuE99n87SwyEMptvCHurYZ9GlfmU636B2mSaxRHs6js4mg', ''), data=(parsed_data['text']), headers=headers)
-                        print(r.reason)
-                        print(r.status_code)
-                    except requests.RequestException as e:
-                        print(e.strerror)
+                    print("Jarvis Detected.")
+
+                if not parsed_data['text'].startswith('jarvis'):
+                    print("Not Accepted.")
+                try:
+                    headers = {'Content-Type': 'text/plain', 'Accept': '*/*'}
+                    r = requests.post('http://openhab.local:8080/rest/habot/chat', auth=('oh.CollinToken.ucpZzjkoWnhxg9P6lkmIdKJl11rQT0UN6Ky6rxuE99n87SwyEMptvCHurYZ9GlfmU636B2mSaxRHs6js4mg', ''), data=(parsed_data['text']), headers=headers)
+                    print(r.reason)
+                    print(r.status_code)
+                except requests.RequestException as e:
+                    print(e.strerror)
+
                 if parsed_data['text'] == "jarvis stop recording":
                     print("Done")
                     parser.exit(0)
+
             if dump_fn is not None:
                 dump_fn.write(data)
-
 except KeyboardInterrupt:
     print("\nDone")
     parser.exit(0)
+
 except Exception as e:
     parser.exit(type(e).__name__ + ": " + str(e))

@@ -1,1 +1,0 @@
-python3 Wav/JVSWav record.py
