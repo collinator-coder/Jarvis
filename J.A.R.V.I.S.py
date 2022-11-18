@@ -82,7 +82,7 @@ try:
                     print("Jarvis Detected.")
                 try:
                     headers = {'Content-Type': 'text/plain', 'Accept': '*/*'}
-                    r = requests.post('http://openhab.local:8080/rest/habot/chat', auth=('oh.CollinToken.ucpZzjkoWnhxg9P6lkmIdKJl11rQT0UN6Ky6rxuE99n87SwyEMptvCHurYZ9GlfmU636B2mSaxRHs6js4mg', ''), data=(parsed_data['text']), headers=headers)
+                    r = requests.post('http://openhab.local:8080/rest/habot/chat', auth=('oh.CollinToken.ucpZzjkoWnhxg9P6lkmIdKJl11rQT0UN6Ky6rxuE99n87SwyEMptvCHurYZ9GlfmU636B2mSaxRHs6js4mg', ''), data=( "toggle" + parsed_data['text']), headers=headers)
                     print(r.reason)
                     print(r.status_code)
                 except requests.RequestException as e:
