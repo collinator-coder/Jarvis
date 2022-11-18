@@ -80,9 +80,6 @@ try:
                 print(parsed_data['text'])
                 if parsed_data['text'].startswith('jarvis'):
                     print("Jarvis Detected.")
-
-                if not parsed_data['text'].startswith('jarvis'):
-                    print("Not Accepted.")
                 try:
                     headers = {'Content-Type': 'text/plain', 'Accept': '*/*'}
                     r = requests.post('http://openhab.local:8080/rest/habot/chat', auth=('oh.CollinToken.ucpZzjkoWnhxg9P6lkmIdKJl11rQT0UN6Ky6rxuE99n87SwyEMptvCHurYZ9GlfmU636B2mSaxRHs6js4mg', ''), data=(parsed_data['text']), headers=headers)
@@ -91,6 +88,9 @@ try:
                 except requests.RequestException as e:
                     print(e.strerror)
 
+                if not parsed_data['text'].startswith('jarvis'):
+                    print("Not Accepted.")
+               
                 if parsed_data['text'] == "jarvis stop recording":
                     print("Done")
                     parser.exit(0)
